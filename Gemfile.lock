@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    aviglitch (0.1.5)
+    multi_json (1.12.1)
+    streamio-ffmpeg (2.1.0)
+      multi_json (~> 1.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  aviglitch
+  streamio-ffmpeg
+
+BUNDLED WITH
+   1.12.5
