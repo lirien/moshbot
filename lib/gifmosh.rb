@@ -1,10 +1,19 @@
+require 'aviglitch'
 require 'streamio-ffmpeg'
 require 'rmagick'
 require 'fileutils'
 
-module AviGif
+module GifMosh
+    class Gif
+        attr_reader :gifpath
+        def initialize gifpath
+            @avipath = "#{File.basename(gifpath,File.extname(gifpath))}.avi"
+            GifMosh.gif2avi(gifpath,@avipath)
+        end
+    end
+
     #Converts a gif to an avi
-    def AviGif.gif2avi inpath,outpath="./output.avi"
+    def GifMosh.gif2avi inpath,outpath="./output.avi"
         movie = FFMPEG::Movie.new(inpath)
         options = {pix_fmt: "yuv420p",
             custom: %w(-vf scale=trunc(iw/2)*2:trunc(ih/2)*2)}
@@ -12,7 +21,7 @@ module AviGif
     end
 
     #Converts an avi to a gif
-    def AviGif.avi2gif inpath,outpath="./output.gif"
+    def GifMosh.avi2gif inpath,outpath="./output.gif"
         movie = FFMPEG::Movie.new(inpath)
         Dir.mkdir("frames")
         options = {flags: "lanczos", fps: 15,
