@@ -5,11 +5,44 @@ require 'fileutils'
 
 module GifMosh
     class Gif
-        attr_reader :gifpath
         def initialize gifpath
-            @avipath = "#{File.basename(gifpath,File.extname(gifpath))}.avi"
-            GifMosh.gif2avi(gifpath,@avipath)
+            @basepath = File.basename(gifpath,File.extname(gifpath))
+            create_avi
         end
+
+        def create_avi
+            GifMosh.gif2avi("#{@basepath}.gif", "#{@basepath}.avi")
+            @video = AviGlitch.open "#{@basepath}.avi"
+            @pframes = []
+            @iframes = []
+
+            @length = @video.frames.size
+
+            @video.frames.each_with_index do |frame, index|
+              @pframes.push(index) if frame.is_pframe?
+              @iframes.push(index) if frame.is_iframe?
+            end
+        end
+
+        def remove_avis
+            FileUtils.rm "#{@basepath}.avi", :force => true
+            FileUtils.rm "#{@basepath}_out.avi", :force => true
+        end
+
+        def melt_from_frame frame, outpath="#{@basepath}_out.gif"
+            if !File.exist? "#{@basepath}.avi"
+                create_avi
+            end
+            result = @video.frames[0, frame]
+            (@length - frame).times do
+              result.concat(@video.frames[frame, 1])
+            end
+            avioutfile = AviGlitch.open result
+            avioutfile.output "#{@basepath}_out.avi"
+            GifMosh.avi2gif("#{@basepath}_out.avi", outpath)
+            remove_avis
+        end
+
     end
 
     #Converts a gif to an avi
