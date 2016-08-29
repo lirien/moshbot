@@ -1,4 +1,6 @@
 require 'streamio-ffmpeg'
+require 'rmagick'
+require 'fileutils'
 
 module AviGif
     #Converts a gif to an avi
@@ -12,6 +14,17 @@ module AviGif
     #Converts an avi to a gif
     def AviGif.avi2gif inpath,outpath="./output.gif"
         movie = FFMPEG::Movie.new(inpath)
-        puts "Here's the avi we input! #{inpath}"
+        Dir.mkdir("frames")
+        options = {flags: "lanczos", fps: 15,
+            custom: %w(-vf scale=320:-1:)}
+        transcoder_options = { validate: false }
+        movie.transcode("frames/ffout%03d.png", options, transcoder_options)
+
+        image = Magick::ImageList.new(*Dir.glob("frames/*"))
+        image.coalesce
+        image.optimize_layers Magick::OptimizeLayer
+        image.write(outpath)
+        FileUtils.rm_r Dir.glob("frames/*")
+        FileUtils.rmdir "frames"
     end
 end
