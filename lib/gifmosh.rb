@@ -7,11 +7,11 @@ module GifMosh
     class Gif
         def initialize gifpath
             @basepath = File.basename(gifpath,File.extname(gifpath))
-            create_avi
+            @extension = File.extname(gifpath)
         end
 
         def create_avi
-            GifMosh.gif2avi("#{@basepath}.gif", "#{@basepath}.avi")
+            GifMosh.gif2avi("#{@basepath}#{@extension}", "#{@basepath}.avi")
             @video = AviGlitch.open "#{@basepath}.avi"
             @pframes = []
             @iframes = []
@@ -29,12 +29,12 @@ module GifMosh
             FileUtils.rm "#{@basepath}_out.avi", :force => true
         end
 
-        def melt_from_frame frame, outpath="#{@basepath}_out.gif"
+        def melt_from_frame frame,outpath="#{@basepath}_out.gif",repeat=20
             if !File.exist? "#{@basepath}.avi"
                 create_avi
             end
             result = @video.frames[0, frame]
-            (@length - frame).times do
+            repeat.times do
               result.concat(@video.frames[frame, 1])
             end
             avioutfile = AviGlitch.open result
@@ -43,9 +43,16 @@ module GifMosh
             remove_avis
         end
 
+        def melt_from_random outpath="#{@basepath}_out.gif"
+            if !File.exist? "#{@basepath}.avi"
+                create_avi
+            end
+            melt_from_frame(@pframes.sample, outpath)
+        end
+
     end
 
-    #Converts a gif to an avi
+    #Converts a gif (or mp4!) to an avi
     def GifMosh.gif2avi inpath,outpath="./output.avi"
         movie = FFMPEG::Movie.new(inpath)
         options = {pix_fmt: "yuv420p",
@@ -70,4 +77,5 @@ module GifMosh
         FileUtils.rmdir "frames"
         return outpath
     end
+
 end
