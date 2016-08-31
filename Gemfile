@@ -5,3 +5,7 @@ gem 'rmagick'
 gem 'fileutils'
 gem 'twitter'
 gem 'json'
+
+group :development do
+    gem 'rubocop'
+end
