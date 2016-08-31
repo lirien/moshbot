@@ -2,8 +2,12 @@ GEM
   remote: https://rubygems.org/
   specs:
     addressable (2.4.0)
+    ast (2.3.0)
     aviglitch (0.1.5)
     buftok (0.2.0)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
+    diff-lcs (1.2.5)
     domain_name (0.5.20160615)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.10)
@@ -11,6 +15,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     fileutils (0.7)
       rmagick (>= 2.13.1)
+    hashdiff (0.3.0)
     http (1.0.4)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -26,7 +31,33 @@ GEM
     multi_json (1.12.1)
     multipart-post (2.0.0)
     naught (1.1.0)
+    parser (2.3.1.2)
+      ast (~> 2.2)
+    powerpack (0.1.1)
+    rainbow (2.1.0)
+    rake (10.4.2)
     rmagick (2.16.0)
+    rspec (3.5.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
+    rspec-core (3.5.2)
+      rspec-support (~> 3.5.0)
+    rspec-expectations (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-mocks (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-support (3.5.0)
+    rubocop (0.42.0)
+      parser (>= 2.3.1.1, < 3.0)
+      powerpack (~> 0.1)
+      rainbow (>= 1.99.1, < 3.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (~> 1.0, >= 1.0.1)
+    ruby-progressbar (1.8.1)
+    safe_yaml (1.0.4)
     simple_oauth (0.3.1)
     streamio-ffmpeg (2.1.0)
       multi_json (~> 1.8)
@@ -45,6 +76,11 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
+    unicode-display_width (1.1.0)
+    webmock (2.1.0)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
 
 PLATFORMS
   ruby
@@ -53,9 +89,13 @@ DEPENDENCIES
   aviglitch
   fileutils
   json
+  rake
   rmagick
+  rspec
+  rubocop
   streamio-ffmpeg
   twitter
+  webmock
 
 BUNDLED WITH
    1.12.5

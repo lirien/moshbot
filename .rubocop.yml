@@ -14,7 +14,7 @@ MethodLength:
   CountComments: false
   Max: 20
   Exclude:
-    - test/*.rb
+    - test/**/*.rb
 
 FrozenStringLiteralComment:
   Enabled: false
