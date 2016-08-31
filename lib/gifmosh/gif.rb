@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require 'aviglitch'
 require 'fileutils'
 require_relative 'avi'

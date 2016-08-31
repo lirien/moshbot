@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require 'streamio-ffmpeg'
 require 'rmagick'
 require 'fileutils'

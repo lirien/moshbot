@@ -1,0 +1,20 @@
+AllCops:
+  TargetRubyVersion: 2.3
+
+CyclomaticComplexity:
+  Enabled: false
+
+LineLength:
+  Max: 115
+
+Documentation:
+  Enabled: false
+
+MethodLength:
+  CountComments: false
+  Max: 20
+  Exclude:
+    - test/*.rb
+
+FrozenStringLiteralComment:
+  Enabled: false
