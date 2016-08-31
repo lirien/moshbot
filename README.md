@@ -1,3 +1,4 @@
-# gifmosh
+# moshbot
 
-Break gifs with Ruby.
+Twitter bot that breaks gifs.
+
