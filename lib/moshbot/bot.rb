@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require 'twitter'
 require 'json'
 
@@ -14,6 +13,22 @@ module MoshBot
         config.access_token        = config_args['access_token_key']
         config.access_token_secret = config_args['access_token_secret']
       end
+    end
+
+    def new_mentions
+      timeline = @client.mentions_timeline
+      p timeline.map(&:full_text)
+      p timeline.map(&:media?)
+
+      timeline.each do |t|
+          if t.media?
+              p t.media.map(&:media_uri)
+          end
+      end
+      # get timeline
+      # read all tweets that are newer than previous newest tweet
+      # store newest tweet
+      # return new tweets
     end
   end
 end

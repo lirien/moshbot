@@ -1,8 +1,8 @@
 require 'streamio-ffmpeg'
 require 'rmagick'
 require 'fileutils'
-require_relative 'gif'
-require_relative 'avi'
+require_relative 'gifmosh/gif'
+require_relative 'gifmosh/avi'
 
 module GifMosh
   # Converts a gif (or mp4!) to an avi
