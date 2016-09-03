@@ -21,7 +21,7 @@ module GifMosh
       end
     end
 
-    def melt(frame:, outpath: "#{@basename}_out.avi", repeat: 20)
+    def melt(frame: nil, outpath: "#{@basename}_out.avi", repeat: 20)
       frame ||= @pframes.sample
       result = @video.frames[0, frame]
       repeat.times do

@@ -3,3 +3,4 @@
 *.mp4
 config.json
 .DS_Store
+.bundle

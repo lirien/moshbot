@@ -5,7 +5,7 @@ gem 'rmagick'
 gem 'fileutils'
 gem 'twitter'
 gem 'json'
-gem 'giphy'
+gem 'giphy', git: 'https://github.com/lirien/giphy.git'
 
 group :test do
   gem 'rspec'
@@ -15,4 +15,5 @@ end
 
 group :development do
   gem 'rubocop'
+  gem 'pry'
 end
