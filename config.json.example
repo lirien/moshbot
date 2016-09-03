@@ -2,5 +2,6 @@
     "consumer_key": "your_key_here",
     "consumer_secret": "your_secret_here",
     "access_token_key": "your_token_key_here",
-    "access_token_secret": "your_token_secret_here"
+    "access_token_secret": "your_token_secret_here",
+    "giphy_api_key": "your_giphy_api_key_here"
 }

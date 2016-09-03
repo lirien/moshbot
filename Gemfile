@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 source 'https://rubygems.org'
 gem 'aviglitch'
 gem 'streamio-ffmpeg'
@@ -6,6 +5,7 @@ gem 'rmagick'
 gem 'fileutils'
 gem 'twitter'
 gem 'json'
+gem 'giphy'
 
 group :test do
   gem 'rspec'
