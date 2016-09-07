@@ -4,6 +4,9 @@ require_relative 'avi'
 
 module GifMosh
   class Gif
+    attr_reader :filename
+    attr_reader :basename
+
     def initialize(filename)
       @filename = filename
       @basename = File.basename(filename, File.extname(filename))
@@ -22,6 +25,10 @@ module GifMosh
       avi.destroy
       melted_avi.destroy
       result
+    end
+
+    def destroy
+      FileUtils.rm(@filename, force: true)
     end
   end
 end

@@ -7,6 +7,7 @@ require 'pry'
 module MoshBot
   class Bot
     attr_accessor :client
+
     def initialize(configpath = 'config.json')
       configfile = File.read(configpath)
       config_args = JSON.parse(configfile)
@@ -30,12 +31,18 @@ module MoshBot
     def first_trending_gif
       result = Giphy.trending
       download result.first.original_image.mp4
+      GifMosh::Gif.new('giphy.mp4')
     end
 
-    def mosh
-      # download the gif
+    def mosh(gif: first_trending_gif, dry_run: false)
       # melt the gif
+      out_gif = gif.melt
       # post it to twitter
+      unless dry_run
+        client.update_with_media('', File.new(out_gif.filename))
+        out_gif.destroy
+      end
+      gif.destroy
     end
   end
 end
