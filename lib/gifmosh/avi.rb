@@ -1,5 +1,6 @@
 require 'aviglitch'
 require 'fileutils'
+require_relative '../percent_elements.rb'
 
 module GifMosh
   class Avi
@@ -22,7 +23,7 @@ module GifMosh
     end
 
     def melt(frame: nil, outpath: "#{@basename}_out.avi", repeat: 20)
-      frame ||= @pframes.sample
+      frame ||= @pframes.percent_elements(70).sample
       result = @video.frames[0, frame]
       repeat.times do
         result.concat(@video.frames[frame, 1])
