@@ -2,11 +2,12 @@ require 'twitter'
 require 'json'
 require 'giphy'
 require 'open-uri'
-require 'pry'
+require 'zalgo'
 
 module MoshBot
   class Bot
     attr_accessor :client
+    attr_accessor :text
 
     def initialize(configpath = 'config.json')
       configfile = File.read(configpath)
@@ -31,15 +32,24 @@ module MoshBot
     def first_trending_gif
       result = Giphy.trending
       download result.first.original_image.mp4
+      @text = format_slug result.first.send(:hash)['slug']
       GifMosh::Gif.new('giphy.mp4')
     end
 
-    def mosh(gif: first_trending_gif, dry_run: false)
+    def format_slug(slug)
+      result = slug.split('-')[0...-1]
+                   .map(&:capitalize)
+                   .join(' ')
+      Zalgo.he_comes(result)
+    end
+
+    def mosh(dry_run: false)
+      gif = first_trending_gif
       # melt the gif
       out_gif = gif.melt
       # post it to twitter
       unless dry_run
-        client.update_with_media('', File.new(out_gif.filename))
+        client.update_with_media(@text, File.new(out_gif.filename))
         out_gif.destroy
       end
       gif.destroy

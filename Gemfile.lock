@@ -107,6 +107,7 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
+    zalgo (0.0.4)
 
 PLATFORMS
   ruby
@@ -124,6 +125,7 @@ DEPENDENCIES
   streamio-ffmpeg
   twitter
   webmock
+  zalgo
 
 BUNDLED WITH
    1.12.5

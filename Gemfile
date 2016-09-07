@@ -6,6 +6,7 @@ gem 'fileutils'
 gem 'twitter'
 gem 'json'
 gem 'giphy', git: 'https://github.com/lirien/giphy.git'
+gem 'zalgo'
 
 group :test do
   gem 'rspec'
