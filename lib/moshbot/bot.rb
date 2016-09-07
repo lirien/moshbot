@@ -3,6 +3,7 @@ require 'json'
 require 'giphy'
 require 'open-uri'
 require 'zalgo'
+require_relative '../truncate'
 
 module MoshBot
   class Bot
@@ -40,7 +41,8 @@ module MoshBot
       result = slug.split('-')[0...-1]
                    .map(&:capitalize)
                    .join(' ')
-      Zalgo.he_comes(result)
+      z_result = Zalgo.he_comes(result, top: false, bottom: false)
+      z_result.truncate(140, separator: /\s/, omission: '')
     end
 
     def mosh(dry_run: false)

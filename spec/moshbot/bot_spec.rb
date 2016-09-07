@@ -40,9 +40,13 @@ describe MoshBot::Bot do
 
   describe '#format_slug' do
     it 'separates the slug and zalgos it' do
-      slug = 'a-really-cool-pic-DELETEME'
+      slug = 'a-really-cool-pic-very-very-very-long-amount-of-text-' \
+      'some-of-this-will-have-to-be-deleted-to-post-to-twitter-truncate-after-' \
+      'one-hundred-forty-characters-please-DELETEME'
 
-      expect(@bot.format_slug(slug)).to eq 'zalgo A Really Cool Pic'
+      expect(@bot.format_slug(slug)).to eq 'zalgo A Really Cool Pic ' \
+          'Very Very Very Long Amount Of Text Some Of This Will Have To Be Deleted ' \
+          'To Post To Twitter Truncate After One'
     end
   end
 end
