@@ -41,7 +41,7 @@ module MoshBot
       result = slug.split('-')[0...-1]
                    .map(&:capitalize)
                    .join(' ')
-      z_result = Zalgo.he_comes(result, top: false, bottom: false)
+      z_result = Zalgo.he_comes(result, up: false, down: false)
       z_result.truncate(140, separator: /\s/, omission: '')
     end
 
