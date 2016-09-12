@@ -8,6 +8,9 @@ describe MoshBot::Bot do
     Zalgo.stub(:he_comes) do |string|
       "zalgo #{string}"
     end
+    GifMosh.stub(:fps) do
+      24
+    end
     @bot = MoshBot::Bot.new(fixture('config.json'))
   end
 
