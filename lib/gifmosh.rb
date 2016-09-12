@@ -14,10 +14,10 @@ module GifMosh
   end
 
   # Converts an avi to a gif
-  def self.avi2gif(inpath, outpath = './output.gif')
+  def self.avi2gif(inpath, outpath = './output.gif', fps = 15)
     movie = FFMPEG::Movie.new(inpath)
     Dir.mkdir('frames')
-    options = { flags: 'lanczos', fps: 15,
+    options = { flags: 'lanczos', fps: fps,
                 custom: %w(-vf scale=320:-1:) }
     transcoder_options = { validate: false }
     movie.transcode('frames/ffout%03d.png', options, transcoder_options)
@@ -25,9 +25,15 @@ module GifMosh
     image = Magick::ImageList.new(*Dir.glob('frames/*'))
     image.coalesce
     image.optimize_layers Magick::OptimizeLayer
+    image.delay = 1 / GifMosh.fps(inpath) * 100
     image.write(outpath)
     FileUtils.rm_r Dir.glob('frames/*')
     FileUtils.rmdir 'frames'
     outpath
+  end
+
+  def self.fps(inpath)
+    movie = FFMPEG::Movie.new(inpath)
+    movie.frame_rate.to_f.round(2)
   end
 end

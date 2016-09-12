@@ -20,7 +20,6 @@ describe "#same_fps" do
   it 'input and output have the same fps' do
     gif = GifMosh::Gif.new(fixture('cat_tube.gif'))
     out_gif = gif.melt
-    expect(gif.fps).to eq 12.5
     expect(out_gif.fps).to eq 12.5
     out_gif.destroy
   end
