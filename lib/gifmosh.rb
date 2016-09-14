@@ -8,14 +8,16 @@ module GifMosh
   # Converts a gif (or mp4!) to an avi
   def self.gif2avi(inpath, outpath = './output.avi')
     movie = FFMPEG::Movie.new(inpath)
-    options = { pix_fmt: 'yuv420p',
+    fps = movie.frame_rate.to_f.round(2)
+    options = { pix_fmt: 'yuv420p', fps: fps,
                 custom: %w(-vf scale=trunc(iw/2)*2:trunc(ih/2)*2) }
     movie.transcode(outpath, options)
   end
 
   # Converts an avi to a gif
-  def self.avi2gif(inpath, outpath = './output.gif', fps = 15)
+  def self.avi2gif(inpath, outpath = './output.gif', fps = nil)
     movie = FFMPEG::Movie.new(inpath)
+    fps ||= movie.frame_rate.to_f.round(2)
     Dir.mkdir('frames')
     options = { flags: 'lanczos', fps: fps,
                 custom: %w(-vf scale=320:-1:) }

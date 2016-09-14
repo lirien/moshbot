@@ -23,7 +23,7 @@ module GifMosh
     def melt(frame: nil, outpath: "#{@basename}_out.gif", repeat: 2 * @fps.round)
       avi = to_avi
       melted_avi = avi.melt(frame: frame, repeat: repeat)
-      result = melted_avi.to_gif(outpath: outpath, fps: @fps)
+      result = melted_avi.to_gif(outpath: outpath)
       avi.destroy
       melted_avi.destroy
       result

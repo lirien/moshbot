@@ -33,7 +33,7 @@ module GifMosh
       Avi.new(outpath)
     end
 
-    def to_gif(outpath: "#{@basename}_out.gif", fps: 15)
+    def to_gif(outpath: "#{@basename}_out.gif", fps: nil)
       GifMosh.avi2gif(@filename, outpath, fps)
       Gif.new(outpath)
     end
