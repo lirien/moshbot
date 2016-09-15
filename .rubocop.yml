@@ -12,9 +12,12 @@ Documentation:
 
 MethodLength:
   CountComments: false
-  Max: 20
+  Max: 50
   Exclude:
     - test/**/*.rb
 
 FrozenStringLiteralComment:
+  Enabled: false
+
+AbcSize:
   Enabled: false
