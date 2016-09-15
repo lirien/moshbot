@@ -23,4 +23,15 @@ describe "#same_fps" do
     expect(out_gif.fps).to eq 12.5
     out_gif.destroy
   end
+
+describe "#resize" do
+  it 'resizes avi to make gif with width 200' do
+    gif = GifMosh::Gif.new(fixture('cat_tube.gif'))
+    avi = gif.to_avi
+    smaller_gif = avi.to_gif(outpath: 'small_cat_tube.gif', width: 200 )
+    expect(smaller_gif.width).to eq 200
+    smaller_gif.destroy
+  end
+end
+
 end

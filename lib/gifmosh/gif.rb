@@ -7,12 +7,14 @@ module GifMosh
     attr_reader :filename
     attr_reader :basename
     attr_reader :fps
+    attr_reader :width
 
     def initialize(filename)
       @filename = filename
       @basename = File.basename(filename, File.extname(filename))
       @extension = File.extname(filename)
       @fps = GifMosh.fps(filename)
+      @width = GifMosh.width(filename)
     end
 
     def to_avi(outpath: "#{@basename}.avi")

@@ -11,6 +11,9 @@ describe MoshBot::Bot do
     GifMosh.stub(:fps) do
       24
     end
+    GifMosh.stub(:width) do
+      320
+    end
     @bot = MoshBot::Bot.new(fixture('config.json'))
   end
 
