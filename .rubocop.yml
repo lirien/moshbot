@@ -12,7 +12,7 @@ Documentation:
 
 MethodLength:
   CountComments: false
-  Max: 50
+  Max: 25
   Exclude:
     - test/**/*.rb
 
