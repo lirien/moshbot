@@ -43,7 +43,7 @@ module MoshBot
                    .map(&:capitalize)
                    .join(' ')
       z_result = Zalgo.he_comes(result, up: false, down: false)
-      z_result.truncate(140, separator: /\s/, omission: '')
+      z_result.truncate(118, separator: /\s/, omission: '')
     end
 
     def mosh(dry_run: false)

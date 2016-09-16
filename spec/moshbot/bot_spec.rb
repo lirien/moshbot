@@ -64,7 +64,7 @@ describe MoshBot::Bot do
 
       expect(@bot.format_slug(slug)).to eq 'zalgo A Really Cool Pic ' \
           'Very Very Very Long Amount Of Text Some Of This Will Have To Be Deleted ' \
-          'To Post To Twitter Truncate After One'
+          'To Post To Twitter'
     end
   end
 end
