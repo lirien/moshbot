@@ -6,7 +6,7 @@ require_relative 'gifmosh/avi'
 
 module GifMosh
   # Converts a gif (or mp4!) to an avi
-  def self.gif2avi(inpath, outpath = './output.avi')
+  def self.file2avi(inpath, outpath = './output.avi')
     movie = FFMPEG::Movie.new(inpath)
     fps = movie.frame_rate.to_f.round(2)
     options = { pix_fmt: 'yuv420p', fps: fps,
@@ -14,8 +14,8 @@ module GifMosh
     movie.transcode(outpath, options)
   end
 
-  # Converts an avi to a gif
-  def self.avi2gif(inpath, outpath = './output.gif', fps = nil, width = nil)
+  # Converts an avi (or gif?) to a gif
+  def self.file2gif(inpath, outpath = './output.gif', fps = nil, width = nil)
     movie = FFMPEG::Movie.new(inpath)
     fps ||= movie.frame_rate.to_f.round(2)
     FileUtils.rm_r Dir.glob('frames/*')
@@ -47,5 +47,10 @@ module GifMosh
   def self.width(inpath)
     movie = FFMPEG::Movie.new(inpath)
     movie.width
+  end
+
+  def self.filesize(inpath)
+    movie = FFMPEG::Movie.new(inpath)
+    movie.size
   end
 end

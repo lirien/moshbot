@@ -8,6 +8,7 @@ module GifMosh
     attr_reader :basename
     attr_reader :fps
     attr_reader :width
+    attr_reader :filesize
 
     def initialize(filename)
       @filename = filename
@@ -15,10 +16,11 @@ module GifMosh
       @extension = File.extname(filename)
       @fps = GifMosh.fps(filename)
       @width = GifMosh.width(filename)
+      @filesize = GifMosh.filesize(filename)
     end
 
     def to_avi(outpath: "#{@basename}.avi")
-      GifMosh.gif2avi(@filename, outpath) unless File.exist? outpath
+      GifMosh.file2avi(@filename, outpath) unless File.exist? outpath
       Avi.new(outpath)
     end
 
@@ -29,6 +31,12 @@ module GifMosh
       avi.destroy
       melted_avi.destroy
       result
+    end
+
+    def resize(inpath: "#{@basename}.gif", outpath: "#{@basename}_small.gif",
+               width: 200)
+      GifMosh.file2gif(inpath, outpath, nil, width)
+      Gif.new(outpath)
     end
 
     def destroy

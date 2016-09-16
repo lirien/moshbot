@@ -9,6 +9,7 @@ module MoshBot
   class Bot
     attr_accessor :client
     attr_accessor :text
+    attr_accessor :out_gif
 
     def initialize(configpath = 'config.json')
       configfile = File.read(configpath)
@@ -48,11 +49,16 @@ module MoshBot
     def mosh(dry_run: false)
       gif = first_trending_gif
       # melt the gif
-      out_gif = gif.melt
+      @out_gif = gif.melt
+      # check the filesize
+      if @out_gif.filesize > 3_000_000
+        smaller_gif = @out_gif.resize
+        @out_gif = smaller_gif
+      end
       # post it to twitter
       unless dry_run
-        client.update_with_media(@text, File.new(out_gif.filename))
-        out_gif.destroy
+        client.update_with_media(@text, File.new(@out_gif.filename))
+        @out_gif.destroy
       end
       gif.destroy
     end

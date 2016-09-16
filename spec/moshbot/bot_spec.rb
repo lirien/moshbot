@@ -19,6 +19,7 @@ describe MoshBot::Bot do
 
   describe '#first_trending_gif' do
     it 'downloads the first trending gif' do
+      GifMosh.stub(:filesize) { 1_000_000 }
       stub_request(:get, %r{api.giphy.com/v1/gifs/trending}).to_return(
         status: 200,
         body: File.new(fixture('giphy/trending.json')),
@@ -39,6 +40,17 @@ describe MoshBot::Bot do
 
       expect(gif).to receive(:melt) { gif }
       expect(@bot.client).to receive(:update_with_media).with('kitty', instance_of(File))
+
+      @bot.mosh
+    end
+    it 'resizes gif if size > 3 mb' do
+      gif = GifMosh::Gif.new(fixture('large_out.gif'))
+      @bot.stub(:first_trending_gif) { gif }
+      gif.stub(:melt) { gif }
+      @bot.client.stub(:update_with_media)
+      gif.stub(:destroy)
+
+      expect(gif).to receive(:resize) { gif }
 
       @bot.mosh
     end

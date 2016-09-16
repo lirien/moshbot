@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/lirien/giphy.git
-  revision: 32acd89a2c7324d172783ae115a4e3147b9048db
+  revision: 46886f2c34115baefdb73f1d86efbee7c5c21755
   specs:
     giphy (3.0.0)
       faraday (~> 0.9)
@@ -19,7 +19,7 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
-    domain_name (0.5.20160826)
+    domain_name (0.5.20160615)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.10)
     faraday (0.9.2)
@@ -51,7 +51,7 @@ GEM
     multi_json (1.12.1)
     multipart-post (2.0.0)
     naught (1.1.0)
-    oj (2.17.4)
+    oj (2.17.3)
     parser (2.3.1.2)
       ast (~> 2.2)
     powerpack (0.1.1)
@@ -60,13 +60,13 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rainbow (2.1.0)
-    rake (11.2.2)
+    rake (10.4.2)
     rmagick (2.16.0)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
       rspec-mocks (~> 3.5.0)
-    rspec-core (3.5.3)
+    rspec-core (3.5.2)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -85,7 +85,7 @@ GEM
     safe_yaml (1.0.4)
     simple_oauth (0.3.1)
     slop (3.6.0)
-    streamio-ffmpeg (3.0.0)
+    streamio-ffmpeg (2.1.0)
       multi_json (~> 1.8)
     thread_safe (0.3.5)
     twitter (5.16.0)
@@ -102,7 +102,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
-    unicode-display_width (1.1.1)
+    unicode-display_width (1.1.0)
     webmock (2.1.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
