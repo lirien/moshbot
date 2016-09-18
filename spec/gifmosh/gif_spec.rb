@@ -3,7 +3,6 @@ require_relative '../../lib/moshbot'
 require_relative '../../lib/gifmosh'
 
 describe GifMosh::Gif do
-
   describe "#get_fps" do
     it 'returns the correct fps for a mp4' do
       mp4 = GifMosh::Gif.new(fixture('good_day_sir.mp4'))
@@ -33,6 +32,7 @@ describe GifMosh::Gif do
       expect(smaller_gif.width).to eq 200
       smaller_gif.destroy
     end
+    
     it 'resizes itself to make its width 200' do
       gif = GifMosh::Gif.new(fixture('cat_tube.gif'))
       smaller_gif = gif.resize
