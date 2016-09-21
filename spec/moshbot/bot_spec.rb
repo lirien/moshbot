@@ -14,7 +14,7 @@ describe MoshBot::Bot do
     GifMosh.stub(:width) do
       320
     end
-    @bot = MoshBot::Bot.new(fixture('config.json'))
+    @bot = MoshBot::Bot.new(fixture('test_config.json'))
   end
 
   describe '#first_trending_gif' do
