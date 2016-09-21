@@ -1,1 +1,3 @@
 language: ruby
+before_install:
+  - wget http://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz -O - | sudo tar -xJ --strip-components=1 -C /usr/local/bin/
