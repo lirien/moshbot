@@ -33,7 +33,7 @@ module GifMosh
       result
     end
 
-    def resize(inpath: "#{@basename}.gif", outpath: "#{@basename}_small.gif",
+    def resize(inpath: @filename, outpath: "#{@basename}_small.gif",
                width: 200)
       GifMosh.file2gif(inpath, outpath, nil, width)
       Gif.new(outpath)
