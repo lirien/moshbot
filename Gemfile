@@ -12,6 +12,7 @@ group :test do
   gem 'rspec'
   gem 'rake'
   gem 'webmock'
+  gem 'rubocop'
 end
 
 group :development do
