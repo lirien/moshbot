@@ -1,6 +1,7 @@
-# moshbot
+# [@mosh_bot](http://twitter.com/mosh_bot)
+
+![](https://travis-ci.org/lirien/moshbot.svg?branch=master)
 
 Twitter bot that breaks gifs.
 
-![](example.gif)
 ![](example2.gif)
