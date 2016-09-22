@@ -5,3 +5,4 @@ config.json
 .DS_Store
 .bundle
 scratch.rb
+*.csv
