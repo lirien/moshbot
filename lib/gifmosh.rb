@@ -39,6 +39,11 @@ module GifMosh
     outpath
   end
 
+  def self.extract_mvs(inpath, outpath = './mvs.csv')
+    `./bin/extract_mvs #{inpath} > #{outpath}`
+    outpath
+  end
+
   def self.fps(inpath)
     movie = FFMPEG::Movie.new(inpath)
     movie.frame_rate.to_f.round(2)

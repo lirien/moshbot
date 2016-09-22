@@ -1,5 +1,6 @@
 require 'aviglitch'
 require 'fileutils'
+require 'csv'
 require_relative '../percent_elements.rb'
 
 module GifMosh
@@ -36,6 +37,14 @@ module GifMosh
     def to_gif(outpath: "#{@basename}_out.gif", fps: nil, width: nil)
       GifMosh.file2gif(@filename, outpath, fps, width)
       Gif.new(outpath)
+    end
+
+    def mvs(inpath: @filename)
+      outpath = "#{@basename}_mvs.csv"
+      GifMosh.extract_mvs(inpath, outpath)
+      mv_array = CSV.read(outpath)
+      FileUtils.rm(outpath, force: true)
+      mv_array
     end
 
     def destroy
