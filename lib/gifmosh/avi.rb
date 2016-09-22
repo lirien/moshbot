@@ -1,7 +1,6 @@
 require 'aviglitch'
 require 'fileutils'
 require 'csv'
-require_relative '../percent_elements.rb'
 
 module GifMosh
   class Avi
