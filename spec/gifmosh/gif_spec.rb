@@ -3,6 +3,12 @@ require_relative '../../lib/moshbot'
 require_relative '../../lib/gifmosh'
 
 describe GifMosh::Gif do
+  before(:each) do
+    GifMosh::Avi.any_instance.stub(:mvs) do
+      {}
+    end
+  end
+
   describe '#get_fps' do
     it 'returns the correct fps for a mp4' do
       mp4 = GifMosh::Gif.new(fixture('good_day_sir.mp4'))

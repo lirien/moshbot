@@ -5,4 +5,5 @@ config.json
 .DS_Store
 .bundle
 scratch.rb
+extract_mvs
 *.csv

@@ -23,8 +23,34 @@ module GifMosh
       end
     end
 
+    def most_mv_frame
+      current_max = 0
+      largest_frame = 0
+      mvs.each do |frame, mv_list|
+        nonzero = mv_list.reject { |mv| mv.magnitude.zero? }
+        if nonzero.length > current_max
+          largest_frame = frame
+          current_max = nonzero.length
+        end
+      end
+      largest_frame - 1
+    end
+
+    def largest_mv_frame
+      current_max = 0
+      largest_frame = 0
+      mvs.each do |frame, mv_list|
+        sum = mv_list.map(&:magnitude).reduce(0, :+)
+        if sum > current_max
+          largest_frame = frame
+          current_max = sum
+        end
+      end
+      largest_frame - 1
+    end
+
     def melt(frame: nil, outpath: "#{@basename}_out.avi", repeat: 20)
-      frame ||= @pframes.percent_elements(70).sample
+      frame ||= most_mv_frame
       result = @video.frames[0, frame]
       repeat.times do
         result.concat(@video.frames[frame, 1])
@@ -39,12 +65,25 @@ module GifMosh
       Gif.new(outpath)
     end
 
-    def mvs(inpath: @filename)
-      outpath = "#{@basename}_mvs.csv"
-      GifMosh.extract_mvs(inpath, outpath)
-      mv_array = CSV.read(outpath)
-      FileUtils.rm(outpath, force: true)
-      mv_array
+    def mvs
+      return @mvs unless @mvs.nil?
+      @mvs = Hash.new { |h, k| h[k] = [] }
+
+      csv = extract_mvs
+      CSV.foreach(csv, headers: true) do |row|
+        hash = row.to_hash
+        @mvs[hash['framenum'].to_i] << MotionVector.new(hash)
+      end
+
+      FileUtils.rm(csv, force: true)
+
+      @mvs
+    end
+
+    def extract_mvs
+      tmpfile = "#{@basename}_mvs.csv"
+      `./bin/extract_mvs #{@filename} > #{tmpfile}`
+      tmpfile
     end
 
     def destroy
