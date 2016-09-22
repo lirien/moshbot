@@ -3,6 +3,7 @@ require 'rmagick'
 require 'fileutils'
 require_relative 'gifmosh/gif'
 require_relative 'gifmosh/avi'
+require_relative 'gifmosh/motion_vector'
 
 module GifMosh
   # Converts a gif (or mp4!) to an avi
@@ -36,11 +37,6 @@ module GifMosh
     image.write(outpath)
     FileUtils.rm_r Dir.glob('frames/*')
     FileUtils.rmdir 'frames'
-    outpath
-  end
-
-  def self.extract_mvs(inpath, outpath = './mvs.csv')
-    `./bin/extract_mvs #{inpath} > #{outpath}`
     outpath
   end
 
