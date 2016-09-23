@@ -7,3 +7,5 @@ config.json
 scratch.rb
 extract_mvs
 *.csv
+*.plist
+*.log
