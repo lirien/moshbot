@@ -22,10 +22,11 @@ module GifMosh
       end
     end
 
-    def most_mv_frame
+    def most_mv_frame(motion_vectors = nil)
+      motion_vectors ||= mvs
       current_max = 0
       largest_frame = 0
-      mvs.each do |frame, mv_list|
+      motion_vectors.each do |frame, mv_list|
         nonzero = mv_list.reject { |mv| mv.magnitude.zero? }
         if nonzero.length > current_max
           largest_frame = frame
@@ -35,10 +36,11 @@ module GifMosh
       largest_frame - 1
     end
 
-    def largest_mv_frame
+    def largest_mv_frame(motion_vectors = nil)
+      motion_vectors ||= mvs
       current_max = 0
       largest_frame = 0
-      mvs.each do |frame, mv_list|
+      motion_vectors.each do |frame, mv_list|
         sum = mv_list.map(&:magnitude).reduce(0, :+)
         if sum > current_max
           largest_frame = frame
@@ -48,8 +50,13 @@ module GifMosh
       largest_frame - 1
     end
 
+    def last_percent_mvs(percent = 0.5)
+      from_frame = (mvs.keys.last * (1 - percent)).to_i
+      mvs.reject { |key, _| key <= from_frame }
+    end
+
     def melt(frame: nil, outpath: "#{@basename}_out.avi", repeat: 20)
-      frame ||= most_mv_frame
+      frame ||= most_mv_frame(last_percent_mvs)
       result = @video.frames[0, frame]
       repeat.times do
         result.concat(@video.frames[frame, 1])

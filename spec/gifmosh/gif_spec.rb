@@ -5,7 +5,7 @@ require_relative '../../lib/gifmosh'
 describe GifMosh::Gif do
   before(:each) do
     GifMosh::Avi.any_instance.stub(:mvs) do
-      {}
+      stub_mvs
     end
   end
 
