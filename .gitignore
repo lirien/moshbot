@@ -6,6 +6,7 @@ config.json
 .bundle
 scratch.rb
 extract_mvs
+vendor
 *.csv
 *.plist
 *.log
