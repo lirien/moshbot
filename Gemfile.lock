@@ -52,7 +52,7 @@ GEM
     multipart-post (2.0.0)
     naught (1.1.0)
     oj (2.17.4)
-    parser (2.3.1.2)
+    parser (2.3.1.4)
       ast (~> 2.2)
     powerpack (0.1.1)
     pry (0.10.4)
@@ -60,7 +60,7 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rainbow (2.1.0)
-    rake (11.2.2)
+    rake (11.3.0)
     rmagick (2.16.0)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
@@ -75,7 +75,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    rubocop (0.42.0)
+    rubocop (0.43.0)
       parser (>= 2.3.1.1, < 3.0)
       powerpack (~> 0.1)
       rainbow (>= 1.99.1, < 3.0)
@@ -128,4 +128,4 @@ DEPENDENCIES
   zalgo
 
 BUNDLED WITH
-   1.12.5
+   1.13.1
