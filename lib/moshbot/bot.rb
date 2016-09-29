@@ -25,7 +25,7 @@ module MoshBot
       end
     end
 
-    def download(uri, filename: 'giphy.mp4')
+    def download(uri, filename: 'giphy.gif')
       File.open(filename, 'wb') do |fo|
         fo.write open(uri).read
       end
@@ -33,9 +33,9 @@ module MoshBot
 
     def first_trending_gif
       result = Giphy.trending
-      download result.first.original_image.mp4
+      download result.first.original_image.url
       @text = format_slug result.first.send(:hash)['slug']
-      GifMosh::Gif.new('giphy.mp4')
+      GifMosh::Gif.new('giphy.gif')
     end
 
     def format_slug(slug)

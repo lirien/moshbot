@@ -26,7 +26,7 @@ describe MoshBot::Bot do
         headers: {}
       )
 
-      expect(@bot).to receive(:download).with(URI('http://media2.giphy.com/media/yj5oYHjoIwv28/giphy.mp4'))
+      expect(@bot).to receive(:download).with(URI('http://media2.giphy.com/media/yj5oYHjoIwv28/giphy.gif'))
       @bot.first_trending_gif
     end
   end
