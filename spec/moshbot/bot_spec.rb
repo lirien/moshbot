@@ -18,7 +18,21 @@ describe MoshBot::Bot do
   end
 
   describe '#first_trending_gif' do
-    it 'downloads the first trending gif' do
+    it 'downloads the first trending gif if there is no mp4' do
+      GifMosh.stub(:filesize) { 1_000_000 }
+      stub_request(:get, %r{api.giphy.com/v1/gifs/trending}).to_return(
+        status: 200,
+        body: File.new(fixture('giphy/trending-no-mp4.json')),
+        headers: {}
+      )
+
+      expect(@bot).to receive(:download).with(URI('http://media2.giphy.com/media/yj5oYHjoIwv28/giphy.gif')) do
+        @bot.instance_variable_set(:@filename, fixture('melted_cat.gif'))
+      end
+      @bot.first_trending_gif
+    end
+
+    it 'downloads the first trending mp4 if there is an mp4' do
       GifMosh.stub(:filesize) { 1_000_000 }
       stub_request(:get, %r{api.giphy.com/v1/gifs/trending}).to_return(
         status: 200,
@@ -26,7 +40,9 @@ describe MoshBot::Bot do
         headers: {}
       )
 
-      expect(@bot).to receive(:download).with(URI('http://media2.giphy.com/media/yj5oYHjoIwv28/giphy.gif'))
+      expect(@bot).to receive(:download).with(URI('http://media2.giphy.com/media/yj5oYHjoIwv28/giphy.mp4')) do
+        @bot.instance_variable_set(:@filename, fixture('good_day_sir.mp4'))
+      end
       @bot.first_trending_gif
     end
   end

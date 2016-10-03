@@ -3,6 +3,7 @@ require 'json'
 require 'giphy'
 require 'open-uri'
 require 'zalgo'
+require 'uri'
 require_relative '../truncate'
 
 module MoshBot
@@ -25,17 +26,24 @@ module MoshBot
       end
     end
 
-    def download(uri, filename: 'giphy.gif')
-      File.open(filename, 'wb') do |fo|
+    def download(uri)
+      @filename = File.basename(uri.path)
+      File.open(@filename, 'wb') do |fo|
         fo.write open(uri).read
       end
     end
 
     def first_trending_gif
       result = Giphy.trending
-      download result.first.original_image.url
+      original_image = result.first.original_image
+      uri = if !original_image.mp4 || original_image.mp4.to_s.empty?
+              original_image.url
+            else
+              original_image.mp4
+            end
+      download uri
       @text = format_slug result.first.send(:hash)['slug']
-      GifMosh::Gif.new('giphy.gif')
+      GifMosh::Gif.new(@filename)
     end
 
     def format_slug(slug)
