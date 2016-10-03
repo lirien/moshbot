@@ -25,7 +25,7 @@ module GifMosh
                 custom: %w(-vf scale=320:-1:) }
     transcoder_options = { validate: false }
     movie.transcode('frames/ffout%03d.png', options, transcoder_options)
-    image = Magick::ImageList.new(*Dir.glob('frames/*'))
+    image = Magick::ImageList.new(*Dir.glob('frames/*').sort)
     if width
       image.each do |x|
         x.change_geometry!("#{width}x1024") { |cols, rows, img| img.resize!(cols, rows) }
