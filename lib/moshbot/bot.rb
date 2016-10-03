@@ -33,8 +33,13 @@ module MoshBot
       end
     end
 
-    def first_trending_gif
+    def first_trending_gif(last_moshed_id_path = './last_moshed_id')
       result = Giphy.trending
+      id = result.first.id
+      if last_moshed_was_same(id, last_moshed_id_path)
+        print "#{Time.now}: The same gif was moshed last time; abort \n"
+        return nil
+      end
       original_image = result.first.original_image
       uri = if !original_image.mp4 || original_image.mp4.to_s.empty?
               original_image.url
@@ -44,6 +49,25 @@ module MoshBot
       download uri
       @text = format_slug result.first.send(:hash)['slug']
       GifMosh::Gif.new(@filename)
+    end
+
+    def last_moshed_was_same(id, last_moshed_id_path = './last_moshed_id')
+      unless File.exist?(last_moshed_id_path)
+        update_gif_id(id, last_moshed_id_path)
+        return false
+      end
+      f = File.new(last_moshed_id_path, 'r')
+      prev_id = f.read.chomp
+      f.close
+      return true unless prev_id != id
+      update_gif_id(id, last_moshed_id_path)
+      false
+    end
+
+    def update_gif_id(id, path)
+      f = File.new(path, 'w+')
+      f.write(id)
+      f.close
     end
 
     def format_slug(slug)
@@ -56,6 +80,7 @@ module MoshBot
 
     def mosh(dry_run: false)
       gif = first_trending_gif
+      return unless gif
       # melt the gif
       @out_gif = gif.melt
       # check the filesize

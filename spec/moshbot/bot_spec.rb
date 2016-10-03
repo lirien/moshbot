@@ -15,9 +15,20 @@ describe MoshBot::Bot do
       320
     end
     @bot = MoshBot::Bot.new(fixture('test_config.json'))
+    @bot.stub(:update_gif_id)
   end
 
   describe '#first_trending_gif' do
+    it 'does not download the gif if it has already been moshed' do
+      GifMosh.stub(:filesize) { 1_000_000 }
+      stub_request(:get, %r{api.giphy.com/v1/gifs/trending}).to_return(
+        status: 200,
+        body: File.new(fixture('giphy/trending.json')),
+        headers: {}
+      )
+      expect(@bot.first_trending_gif(fixture('last_moshed_id_same'))).to be nil
+    end
+
     it 'downloads the first trending gif if there is no mp4' do
       GifMosh.stub(:filesize) { 1_000_000 }
       stub_request(:get, %r{api.giphy.com/v1/gifs/trending}).to_return(
@@ -29,7 +40,7 @@ describe MoshBot::Bot do
       expect(@bot).to receive(:download).with(URI('http://media2.giphy.com/media/yj5oYHjoIwv28/giphy.gif')) do
         @bot.instance_variable_set(:@filename, fixture('melted_cat.gif'))
       end
-      @bot.first_trending_gif
+      @bot.first_trending_gif(fixture('last_moshed_id_different'))
     end
 
     it 'downloads the first trending mp4 if there is an mp4' do
@@ -43,7 +54,7 @@ describe MoshBot::Bot do
       expect(@bot).to receive(:download).with(URI('http://media2.giphy.com/media/yj5oYHjoIwv28/giphy.mp4')) do
         @bot.instance_variable_set(:@filename, fixture('good_day_sir.mp4'))
       end
-      @bot.first_trending_gif
+      @bot.first_trending_gif(fixture('last_moshed_id_different'))
     end
   end
 
