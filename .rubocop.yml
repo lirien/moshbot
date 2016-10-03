@@ -21,3 +21,6 @@ FrozenStringLiteralComment:
 
 AbcSize:
   Enabled: false
+
+Style/SafeNavigation:
+  Enabled: false
