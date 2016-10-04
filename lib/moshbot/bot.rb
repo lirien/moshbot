@@ -46,6 +46,7 @@ module MoshBot
             else
               original_image.mp4
             end
+      print "URI: #{uri} \n"
       download uri
       @text = format_slug result.first.send(:hash)['slug']
       GifMosh::Gif.new(@filename)
