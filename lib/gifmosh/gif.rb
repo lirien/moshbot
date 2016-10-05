@@ -1,5 +1,6 @@
 require 'aviglitch'
 require 'fileutils'
+require 'streamio-ffmpeg'
 require_relative 'avi'
 
 module GifMosh
@@ -14,9 +15,10 @@ module GifMosh
       @filename = filename
       @basename = File.basename(filename, File.extname(filename))
       @extension = File.extname(filename)
-      @fps = GifMosh.fps(filename)
-      @width = GifMosh.width(filename)
-      @filesize = GifMosh.filesize(filename)
+      movie = FFMPEG::Movie.new(filename)
+      @fps = movie.frame_rate.to_f.round(2)
+      @width = movie.width
+      @filesize = movie.size
     end
 
     def to_avi(outpath: "#{@basename}.avi")

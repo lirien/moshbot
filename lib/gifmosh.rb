@@ -39,19 +39,4 @@ module GifMosh
     FileUtils.rmdir 'frames'
     outpath
   end
-
-  def self.fps(inpath)
-    movie = FFMPEG::Movie.new(inpath)
-    movie.frame_rate.to_f.round(2)
-  end
-
-  def self.width(inpath)
-    movie = FFMPEG::Movie.new(inpath)
-    movie.width
-  end
-
-  def self.filesize(inpath)
-    movie = FFMPEG::Movie.new(inpath)
-    movie.size
-  end
 end
