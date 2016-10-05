@@ -66,9 +66,9 @@ module GifMosh
       Avi.new(outpath)
     end
 
-    def to_gif(outpath: "#{@basename}_out.gif", fps: nil, width: nil)
-      filename, fps, width, filesize = GifMosh.file2gif(@filename, outpath, fps, width)
-      Gif.new(filename, fps, width, filesize)
+    def to_gif(outpath: "#{@basename}_out.gif", fps: nil)
+      gifpath, fps, width, filesize = GifMosh.file2gif(@filename, outpath, fps)
+      Gif.new(gifpath, fps, width, filesize)
     end
 
     def mvs

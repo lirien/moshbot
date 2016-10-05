@@ -1,6 +1,5 @@
 require 'aviglitch'
 require 'fileutils'
-require 'streamio-ffmpeg'
 require_relative 'avi'
 
 module GifMosh
@@ -18,6 +17,7 @@ module GifMosh
       @fps = fps
       @width = width
       @filesize = filesize
+
       return unless @fps.nil? || @width.nil? || @filesize.nil?
       movie = FFMPEG::Movie.new(filename)
       @fps = movie.frame_rate.to_f.round(2)
@@ -41,8 +41,17 @@ module GifMosh
 
     def resize(inpath: @filename, outpath: "#{@basename}_small.gif",
                width: 200)
-      filename, fps, width, filesize = GifMosh.file2gif(inpath, outpath, nil, width)
-      Gif.new(filename, fps, width, filesize)
+      image = Magick::ImageList.new(inpath)
+      image.each do |x|
+        x.change_geometry!("#{width}x1024") { |cols, rows, img| img.resize!(cols, rows) }
+      end
+
+      image.coalesce
+      image.optimize_layers Magick::OptimizeLayer
+      image.delay = 1 / @fps * 100
+      image.write(outpath)
+
+      Gif.new(outpath, @fps, width, File.new(outpath).size)
     end
 
     def destroy
