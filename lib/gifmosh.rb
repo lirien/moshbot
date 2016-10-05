@@ -37,6 +37,6 @@ module GifMosh
     image.write(outpath)
     FileUtils.rm_r Dir.glob('frames/*')
     FileUtils.rmdir 'frames'
-    outpath
+    [outpath, fps, image.first.columns, File.new(outpath).size]
   end
 end

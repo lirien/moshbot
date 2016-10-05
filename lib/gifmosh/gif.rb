@@ -11,10 +11,14 @@ module GifMosh
     attr_reader :width
     attr_reader :filesize
 
-    def initialize(filename)
+    def initialize(filename, fps = nil, width = nil, filesize = nil)
       @filename = filename
       @basename = File.basename(filename, File.extname(filename))
       @extension = File.extname(filename)
+      @fps = fps
+      @width = width
+      @filesize = filesize
+      return unless @fps.nil? || @width.nil? || @filesize.nil?
       movie = FFMPEG::Movie.new(filename)
       @fps = movie.frame_rate.to_f.round(2)
       @width = movie.width
@@ -37,8 +41,8 @@ module GifMosh
 
     def resize(inpath: @filename, outpath: "#{@basename}_small.gif",
                width: 200)
-      GifMosh.file2gif(inpath, outpath, nil, width)
-      Gif.new(outpath)
+      filename, fps, width, filesize = GifMosh.file2gif(inpath, outpath, nil, width)
+      Gif.new(filename, fps, width, filesize)
     end
 
     def destroy
