@@ -54,6 +54,11 @@ module GifMosh
       Gif.new(outpath, @fps, width, File.new(outpath).size)
     end
 
+    def frame_count
+      image = Magick::ImageList.new(filename)
+      image.length
+    end
+
     def destroy
       FileUtils.rm(@filename, force: true)
     end

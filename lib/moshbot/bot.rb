@@ -84,6 +84,10 @@ module MoshBot
     def mosh(dry_run: false)
       gif = first_trending_gif
       return unless gif
+      if gif.frame_count < MIN_FRAME_COUNT
+        print "#{Time.now}: gif was too short; abort \n"
+        return
+      end
       # melt the gif
       @out_gif = gif.melt
       # check the filesize

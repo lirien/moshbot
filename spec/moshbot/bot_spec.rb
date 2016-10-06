@@ -70,6 +70,19 @@ describe MoshBot::Bot do
 
       @bot.mosh
     end
+
+    it 'does not mosh the gif if it has fewer than MIN_FRAME_COUNT frames' do
+      gif = GifMosh::Gif.new(fixture('short.gif'))
+      @bot.stub(:first_trending_gif) { gif }
+      @bot.text = 'short'
+      gif.stub(:destroy)
+
+      expect(gif).not_to receive(:melt)
+      expect(@bot.client).not_to receive(:update_with_media)
+
+      @bot.mosh
+    end
+
     it 'resizes gif if size > 3 mb' do
       gif = GifMosh::Gif.new(fixture('large_out.gif'))
       @bot.stub(:first_trending_gif) { gif }
