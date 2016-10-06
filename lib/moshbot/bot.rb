@@ -72,9 +72,11 @@ module MoshBot
     end
 
     def format_slug(slug)
+      slug ||= ''
       result = slug.split('-')[0...-1]
                    .map(&:capitalize)
                    .join(' ')
+      result = 'Untitled' if result.empty?
       z_result = Zalgo.he_comes(result, up: false, down: false)
       z_result.truncate(118, separator: /\s/, omission: '')
     end

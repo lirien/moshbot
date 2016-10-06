@@ -93,5 +93,15 @@ describe MoshBot::Bot do
           'Very Very Very Long Amount Of Text Some Of This Will Have To Be Deleted ' \
           'To Post To Twitter'
     end
+
+    it 'replaces blank slug text with untitled' do
+      slug = ''
+      expect(@bot.format_slug(slug)).to eq 'zalgo Untitled'
+    end
+
+    it 'replaces nil slug text with untitled' do
+      slug = nil
+      expect(@bot.format_slug(slug)).to eq 'zalgo Untitled'
+    end
   end
 end
