@@ -39,24 +39,26 @@ module GifMosh
       result
     end
 
-    def resize(inpath: @filename, outpath: "#{@basename}_small.gif",
-               width: 200)
-      image = Magick::ImageList.new(inpath)
-      image.each do |x|
+    def resize(outpath: "#{@basename}_small.gif", width: 200)
+      image_list.each do |x|
         x.change_geometry!("#{width}x1024") { |cols, rows, img| img.resize!(cols, rows) }
       end
 
-      image.coalesce
-      image.optimize_layers Magick::OptimizeLayer
-      image.delay = 1 / @fps * 100
-      image.write(outpath)
+      image_list.coalesce
+      image_list.optimize_layers Magick::OptimizeLayer
+      image_list.delay = 1 / @fps * 100
+      image_list.write(outpath)
 
       Gif.new(outpath, @fps, width, File.new(outpath).size)
     end
 
     def frame_count
-      image = Magick::ImageList.new(filename)
-      image.length
+      image_list.length
+    end
+
+    def image_list
+      return @image_list unless @image_list.nil?
+      @image_list = Magick::ImageList.new(@filename)
     end
 
     def destroy
