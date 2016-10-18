@@ -25,21 +25,21 @@ module GifMosh
       @filesize = movie.size
     end
 
-    def to_avi(outpath: "#{@basename}.avi")
-      GifMosh.file2avi(@filename, outpath) unless File.exist? outpath
-      Avi.new(outpath)
+    def to_avi
+      GifMosh.file2avi(@filename, avi_outpath) unless File.exist? avi_outpath
+      Avi.new(avi_outpath)
     end
 
-    def melt(frame: nil, outpath: "#{@basename}_out.gif", repeat: 2 * @fps.round)
+    def melt(frame: nil, repeat: 2 * @fps.round)
       avi = to_avi
       melted_avi = avi.melt(frame: frame, repeat: repeat)
-      result = melted_avi.to_gif(outpath: outpath)
+      result = melted_avi.to_gif
       avi.destroy
       melted_avi.destroy
       result
     end
 
-    def resize(outpath: "#{@basename}_small.gif", width: 200)
+    def resize(width: 200)
       image_list.each do |x|
         x.change_geometry!("#{width}x1024") { |cols, rows, img| img.resize!(cols, rows) }
       end
@@ -47,9 +47,9 @@ module GifMosh
       image_list.coalesce
       image_list.optimize_layers Magick::OptimizeLayer
       image_list.delay = 1 / @fps * 100
-      image_list.write(outpath)
+      image_list.write(small_outpath)
 
-      Gif.new(outpath, @fps, width, File.new(outpath).size)
+      Gif.new(small_outpath, @fps, width, File.new(small_outpath).size)
     end
 
     def frame_count
@@ -63,6 +63,14 @@ module GifMosh
 
     def destroy
       FileUtils.rm(@filename, force: true)
+    end
+
+    def avi_outpath
+      "#{@basename}.avi"
+    end
+
+    def small_outpath
+      "#{@basename}_small.gif"
     end
   end
 end

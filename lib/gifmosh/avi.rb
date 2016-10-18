@@ -55,19 +55,19 @@ module GifMosh
       mvs.reject { |key, _| key <= from_frame }
     end
 
-    def melt(frame: nil, outpath: "#{@basename}_out.avi", repeat: 20)
+    def melt(frame: nil, repeat: 20)
       frame ||= most_mv_frame(last_percent_mvs)
       result = @video.frames[0, frame]
       repeat.times do
         result.concat(@video.frames[frame, 1])
       end
 
-      AviGlitch.open(result).output(outpath)
-      Avi.new(outpath)
+      AviGlitch.open(result).output(avi_outpath)
+      Avi.new(avi_outpath)
     end
 
-    def to_gif(outpath: "#{@basename}_out.gif", fps: nil)
-      gifpath, fps, width, filesize = GifMosh.file2gif(@filename, outpath, fps)
+    def to_gif(fps: nil)
+      gifpath, fps, width, filesize = GifMosh.file2gif(@filename, gif_outpath, fps)
       Gif.new(gifpath, fps, width, filesize)
     end
 
@@ -94,6 +94,14 @@ module GifMosh
 
     def destroy
       FileUtils.rm(@filename, force: true)
+    end
+
+    def gif_outpath
+      "#{@basename}_out.gif"
+    end
+
+    def avi_outpath
+      "#{@basename}_out.avi"
     end
   end
 end
