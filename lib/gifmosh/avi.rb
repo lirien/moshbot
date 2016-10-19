@@ -97,7 +97,7 @@ module GifMosh
     end
 
     def gif_outpath
-      "#{@basename}_out.gif"
+      "#{@basename}.gif"
     end
 
     def avi_outpath
