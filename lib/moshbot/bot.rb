@@ -82,14 +82,14 @@ module MoshBot
     end
 
     def mosh(dry_run: false)
-      gif = first_trending_gif
-      return unless gif
-      if gif.frame_count < MIN_FRAME_COUNT
+      @gif = first_trending_gif
+      return unless @gif
+      if @gif.frame_count < MIN_FRAME_COUNT
         print "#{Time.now}: gif was too short; abort \n"
         return
       end
       # melt the gif
-      @out_gif = gif.melt
+      @out_gif = @gif.melt
       # check the filesize
       if @out_gif.filesize > 3_000_000
         smaller_gif = @out_gif.resize
@@ -100,7 +100,20 @@ module MoshBot
         client.update_with_media(@text, File.new(@out_gif.filename))
         @out_gif.destroy
       end
-      gif.destroy
+      @gif.destroy
+    rescue
+      cleanup
+    end
+
+    def cleanup
+      puts '*** Emergency cleanup ***'
+      return unless @gif
+      FileUtils.rm("#{@gif.basename}.gif", force: true)
+      FileUtils.rm("#{@gif.basename}.mp4", force: true)
+      FileUtils.rm("#{@gif.basename}.avi", force: true)
+      FileUtils.rm("#{@gif.basename}_out.gif", force: true)
+      FileUtils.rm("#{@gif.basename}_out.avi", force: true)
+      FileUtils.rm("#{@gif.basename}_out_small.gif", force: true)
     end
   end
 end
